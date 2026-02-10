@@ -1,0 +1,50 @@
+# Database Configuration
+config/database.php
+
+# Backups and Archives
+*.zip
+*.rar
+*.7z
+sch.zip
+
+# Logs and Debug
+debug_info.txt
+debug_output.txt
+*.log
+
+# Uploads
+uploads/
+!uploads/.gitkeep
+
+# Migration and Utility scripts (Temporary ones)
+ai_migrate.php
+api_migrate.php
+boarding_migrate.php
+cafeteria_migrate.php
+comm_migrate.php
+exam_migrate.php
+health_migrate.php
+hr_migrate.php
+inventory_migrate.php
+library_migrate.php
+transport_migrate.php
+fix_admin.php
+fix_migrate.php
+fix_payroll.php
+fix_payroll_final.php
+run_migration_manual.php
+payroll_test.php
+check_env.php
+check_students.php
+hr_check.php
+find_via_php.php
+debug_path.php
+direct_require_test.php
+seed_categories.php
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Installation
+install/
