@@ -1,0 +1,27 @@
+# Enable Rewrite Engine
+RewriteEngine On
+
+# Set default charset
+AddDefaultCharset UTF-8
+
+# Security Headers
+<IfModule mod_headers.c>
+    Header set X-Content-Type-Options "nosniff"
+    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-XSS-Protection "1; mode=block"
+</IfModule>
+
+# Protect sensitive files
+<FilesMatch "^\\.">
+    Require all denied
+</FilesMatch>
+
+# Protect config and core files
+<FilesMatch "(config|core|database)\\.php$">
+    Require all denied
+</FilesMatch>
+
+# Route all requests to index.php (except existing files)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php?url=$1 [QSA,L]

@@ -1,0 +1,284 @@
+/*
+ * Responsive Styles
+ * Mobile, tablet, and desktop breakpoint handling
+ */
+
+/* ========== SIDEBAR RESPONSIVE ========== */
+@media (max-width: 1199.98px) {
+    .sidebar {
+        transform: translateX(-100%);
+        left: 0;
+        top: 0;
+        bottom: 0;
+        border-radius: 0;
+        z-index: 1100;
+    }
+
+    .sidebar.show {
+        transform: translateX(0);
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+        padding: 16px !important;
+    }
+
+    .top-navbar {
+        margin-left: 0 !important;
+    }
+
+    /* Mobile toggle button */
+    .sidebar-toggle-mobile {
+        display: flex !important;
+    }
+
+    /* Overlay when sidebar is open */
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 1090;
+        backdrop-filter: blur(4px);
+    }
+
+    .sidebar.show+.sidebar-overlay {
+        display: block;
+    }
+}
+
+@media (min-width: 1200px) {
+    .sidebar-toggle-mobile {
+        display: none !important;
+    }
+}
+
+/* ========== TABLET ADJUSTMENTS ========== */
+@media (max-width: 991.98px) {
+    .stat-card .stat-value {
+        font-size: var(--text-2xl);
+    }
+
+    /* Stack cards on tablet */
+    .row>[class*="col-lg"] {
+        margin-bottom: 1rem;
+    }
+}
+
+/* ========== MOBILE ADJUSTMENTS ========== */
+@media (max-width: 767.98px) {
+
+    /* Typography scaling */
+    h1,
+    .h1 {
+        font-size: 1.75rem;
+    }
+
+    h2,
+    .h2 {
+        font-size: 1.5rem;
+    }
+
+    h3,
+    .h3 {
+        font-size: 1.25rem;
+    }
+
+    h4,
+    .h4 {
+        font-size: 1.1rem;
+    }
+
+    /* Card adjustments */
+    .card-body {
+        padding: var(--space-md);
+    }
+
+    .card-header {
+        padding: var(--space-md);
+    }
+
+    /* Stat cards */
+    .stat-card {
+        padding: var(--space-md);
+    }
+
+    .stat-card .stat-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.25rem;
+    }
+
+    .stat-card .stat-value {
+        font-size: var(--text-xl);
+    }
+
+    /* Tables - horizontal scroll */
+    .table-responsive {
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .table th,
+    .table td {
+        padding: var(--space-sm) var(--space-md);
+        font-size: var(--text-xs);
+    }
+
+    /* Buttons - touch friendly */
+    .btn {
+        min-height: 44px;
+        padding: 12px 16px;
+    }
+
+    .btn-sm {
+        min-height: 36px;
+        padding: 8px 12px;
+    }
+
+    /* Form controls - touch friendly */
+    .form-control,
+    .form-select {
+        min-height: 44px;
+        font-size: 16px;
+        /* Prevents zoom on iOS */
+    }
+
+    /* Stack form actions */
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions .btn {
+        width: 100%;
+    }
+
+    /* Hide breadcrumb on mobile */
+    .breadcrumb {
+        display: none;
+    }
+
+    /* Quick actions - stack */
+    .d-flex.gap-2.flex-wrap {
+        flex-direction: column;
+    }
+
+    .d-flex.gap-2.flex-wrap .btn {
+        width: 100%;
+        justify-content: center;
+    }
+
+    /* Top navbar adjustments */
+    .top-navbar {
+        padding: var(--space-md);
+    }
+
+    .top-navbar .page-title {
+        font-size: var(--text-lg);
+    }
+
+    /* Modal adjustments */
+    .modal-dialog {
+        margin: var(--space-md);
+    }
+
+    /* Avatar sizes */
+    .avatar-xl {
+        width: 60px;
+        height: 60px;
+        font-size: var(--text-xl);
+    }
+}
+
+/* ========== SMALL MOBILE ========== */
+@media (max-width: 575.98px) {
+    body {
+        font-size: 14px;
+    }
+
+    .main-content {
+        padding: 12px !important;
+    }
+
+    .card {
+        border-radius: var(--radius-md);
+    }
+
+    /* Hide less important columns on small screens */
+    .table .hide-on-mobile {
+        display: none;
+    }
+
+    /* Pagination */
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 8px 12px;
+    }
+
+    /* Dropdowns */
+    .dropdown-menu {
+        min-width: 200px;
+    }
+}
+
+/* ========== PRINT STYLES ========== */
+@media print {
+
+    .sidebar,
+    .top-navbar,
+    .btn,
+    .form-actions,
+    .dataTables_filter,
+    .dataTables_paginate,
+    .dataTables_info,
+    .dataTables_length {
+        display: none !important;
+    }
+
+    .main-content {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .card {
+        box-shadow: none !important;
+        border: 1px solid #ddd !important;
+    }
+
+    body {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+/* ========== HIGH CONTRAST MODE ========== */
+@media (prefers-contrast: high) {
+    :root {
+        --primary: #0000ff;
+        --success: #008000;
+        --warning: #ff8c00;
+        --danger: #ff0000;
+        --border-color: #000;
+    }
+
+    .card {
+        border-width: 2px;
+    }
+
+    .btn {
+        border-width: 2px;
+    }
+}
+
+/* ========== REDUCED MOTION ========== */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

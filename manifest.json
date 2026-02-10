@@ -1,0 +1,16 @@
+{
+  "name": "iTeacher - School Management App",
+  "short_name": "iTeacher",
+  "description": "Mobile app for teachers to manage attendance, grades, and schedules.",
+  "start_url": "iteacher",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#4e73df",
+  "icons": [
+    {
+      "src": "dist/assets/favicon.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ]
+}

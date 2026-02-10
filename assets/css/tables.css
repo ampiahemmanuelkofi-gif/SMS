@@ -1,0 +1,208 @@
+/*
+ * Table Styles
+ * Enterprise-grade data table styling
+ */
+
+/* Table Container - Responsive Wrapper */
+.table-responsive {
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    background: var(--card-bg);
+    overflow: hidden;
+}
+
+.table-responsive::-webkit-scrollbar {
+    height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+/* Base Table */
+.table {
+    margin-bottom: 0;
+    font-size: var(--text-sm);
+}
+
+.table> :not(caption)>*>* {
+    padding: var(--space-md) var(--space-lg);
+    border-color: var(--border-color);
+}
+
+/* Table Header */
+.table thead {
+    background: var(--body-bg);
+}
+
+.table thead th {
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-size: var(--text-xs);
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid var(--border-color);
+    white-space: nowrap;
+}
+
+/* Table Body */
+.table tbody tr {
+    transition: background var(--transition-fast);
+}
+
+.table-hover tbody tr:hover {
+    background: rgba(37, 99, 235, 0.03);
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background: rgba(0, 0, 0, 0.01);
+}
+
+.table-striped tbody tr:nth-of-type(odd):hover {
+    background: rgba(37, 99, 235, 0.03);
+}
+
+/* Action Column */
+.table .actions {
+    white-space: nowrap;
+    text-align: right;
+}
+
+.table .actions .btn {
+    padding: 6px 10px;
+    margin-left: 4px;
+}
+
+.table .actions .btn:first-child {
+    margin-left: 0;
+}
+
+/* Action Button Group */
+.action-buttons {
+    display: inline-flex;
+    gap: 4px;
+}
+
+.action-buttons .btn {
+    padding: 6px 10px;
+}
+
+/* Status Badges in Tables */
+.table .badge {
+    font-size: 11px;
+}
+
+/* Empty State for Tables */
+.table-empty {
+    padding: var(--space-2xl);
+    text-align: center;
+}
+
+.table-empty i {
+    font-size: 3rem;
+    color: var(--text-light);
+    margin-bottom: var(--space-md);
+    display: block;
+}
+
+.table-empty p {
+    color: var(--text-muted);
+    margin: 0;
+}
+
+/* Sortable Headers */
+.table th.sortable {
+    cursor: pointer;
+    user-select: none;
+}
+
+.table th.sortable:hover {
+    background: var(--border-color);
+}
+
+.table th.sortable::after {
+    content: '\F282';
+    font-family: 'bootstrap-icons';
+    margin-left: 8px;
+    opacity: 0.3;
+}
+
+.table th.sortable.asc::after {
+    content: '\F286';
+    opacity: 1;
+}
+
+.table th.sortable.desc::after {
+    content: '\F282';
+    opacity: 1;
+}
+
+/* DataTables Overrides */
+.dataTables_wrapper .dataTables_filter input {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 8px 14px;
+    font-size: var(--text-sm);
+}
+
+.dataTables_wrapper .dataTables_filter input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px var(--primary-soft);
+    outline: none;
+}
+
+.dataTables_wrapper .dataTables_length select {
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 6px 10px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    border-radius: var(--radius-md) !important;
+    border: 1px solid var(--border-color) !important;
+    margin: 0 2px;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: var(--primary) !important;
+    border-color: var(--primary) !important;
+    color: white !important;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+    background: var(--body-bg) !important;
+    border-color: var(--border-hover) !important;
+    color: var(--text-primary) !important;
+}
+
+.dataTables_wrapper .dataTables_info {
+    font-size: var(--text-sm);
+    color: var(--text-muted);
+}
+
+/* Checkbox Column */
+.table .form-check-input {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+}
+
+/* Row Selection */
+.table tbody tr.selected {
+    background: var(--primary-soft) !important;
+}
+
+/* Compact Table */
+.table-compact> :not(caption)>*>* {
+    padding: var(--space-sm) var(--space-md);
+}
+
+/* Bordered Table */
+.table-bordered {
+    border: 1px solid var(--border-color);
+}
+
+.table-bordered> :not(caption)>*>* {
+    border-width: 1px;
+}
