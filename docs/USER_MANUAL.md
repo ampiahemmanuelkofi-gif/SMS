@@ -2,7 +2,9 @@
 
 ## 1. Getting Started
 To access the system, go to `http://localhost/sch` and log in with your credentials.
-- **Default Admin:** admin / admin123
+
+> [!IMPORTANT]
+> For a full step-by-step guide for every role (Admins, Teachers, Parents, Students, and Alumni), please refer to the **[Comprehensive System Tutorial](SYSTEM_TUTORIAL.md)**.
 
 ## 2. Student Admission
 1. Go to **Students** > **Admission Form**.
