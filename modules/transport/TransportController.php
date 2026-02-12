@@ -7,7 +7,7 @@
 class TransportController extends Controller {
     
     public function index() {
-        $this->requireRole(['super_admin', 'admin', 'accountant']);
+        $this->requirePermission('transport');
         $model = $this->model('transport');
         
         $data = [
@@ -20,7 +20,7 @@ class TransportController extends Controller {
     }
 
     public function fleet() {
-        $this->requireRole(['super_admin', 'admin']);
+        $this->requirePermission('transport');
         $model = $this->model('transport');
         
         if ($this->isPost()) {
@@ -47,7 +47,7 @@ class TransportController extends Controller {
     }
 
     public function routes() {
-        $this->requireRole(['super_admin', 'admin']);
+        $this->requirePermission('transport');
         $model = $this->model('transport');
         
         if ($this->isPost()) {
@@ -72,7 +72,7 @@ class TransportController extends Controller {
     }
 
     public function assignments() {
-        $this->requireRole(['super_admin', 'admin']);
+        $this->requirePermission('transport');
         $model = $this->model('transport');
         $usersModel = $this->model('users');
         
@@ -97,7 +97,7 @@ class TransportController extends Controller {
     }
 
     public function maintenance() {
-        $this->requireRole(['super_admin', 'admin']);
+        $this->requirePermission('transport');
         $model = $this->model('transport');
         
         if ($this->isPost()) {

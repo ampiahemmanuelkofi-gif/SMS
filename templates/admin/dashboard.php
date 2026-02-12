@@ -88,15 +88,18 @@
                         ['icon' => 'bi-people', 'label' => 'Users & Roles', 'tab' => 'users', 'color' => 'success'],
                         ['icon' => 'bi-wallet2', 'label' => 'Finance', 'tab' => 'finance', 'color' => 'warning'],
                         ['icon' => 'bi-bell', 'label' => 'Notifications', 'tab' => 'notifications', 'color' => 'danger'],
+                        ['icon' => 'bi-shield-check', 'label' => 'Permissions', 'tab' => 'permissions', 'url' => 'admin/permissions', 'color' => 'danger'],
                         ['icon' => 'bi-palette', 'label' => 'Appearance', 'tab' => 'appearance', 'color' => 'secondary'],
                         ['icon' => 'bi-shield-lock', 'label' => 'Security', 'tab' => 'security', 'color' => 'dark'],
                         ['icon' => 'bi-grid-3x3', 'label' => 'Modules', 'tab' => 'modules', 'color' => 'primary'],
                         ['icon' => 'bi-file-earmark', 'label' => 'Documents', 'tab' => 'documents', 'color' => 'info'],
                         ['icon' => 'bi-database', 'label' => 'Backup', 'tab' => 'backup', 'color' => 'warning'],
                     ];
-                    foreach ($hubs as $hub): ?>
+                    foreach ($hubs as $hub): 
+                        $url = isset($hub['url']) ? BASE_URL . $hub['url'] : BASE_URL . "settings?tab=" . $hub['tab'];
+                    ?>
                         <div class="col-md-2 col-sm-4 col-6">
-                            <a href="<?php echo BASE_URL; ?>settings?tab=<?php echo $hub['tab']; ?>" class="config-tile text-center d-block p-3 rounded-3 text-decoration-none">
+                            <a href="<?php echo $url; ?>" class="config-tile text-center d-block p-3 rounded-3 text-decoration-none">
                                 <div class="avatar avatar-md bg-soft-<?php echo $hub['color']; ?> text-<?php echo $hub['color']; ?> mx-auto mb-2">
                                     <i class="bi <?php echo $hub['icon']; ?>"></i>
                                 </div>

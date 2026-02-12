@@ -9,7 +9,7 @@ class StudentsController extends Controller {
      * List students
      */
     public function index() {
-        $this->requireRole(['super_admin', 'admin']);
+        $this->requirePermission('students');
         
         $model = $this->model('students');
         
@@ -44,7 +44,7 @@ class StudentsController extends Controller {
      * Add new student
      */
     public function add() {
-        $this->requireRole(['super_admin', 'admin']);
+        $this->requirePermission('students');
         
         $academicsModel = $this->model('academics');
         $classes = $academicsModel->getClasses();
@@ -52,6 +52,7 @@ class StudentsController extends Controller {
         $categories = $model->getCategories();
         
         if ($this->isPost()) {
+            $this->requireNotDemo();
             $data = Security::cleanArray($_POST);
             $photo = isset($_FILES['photo']) ? $_FILES['photo'] : null;
             
@@ -123,7 +124,7 @@ class StudentsController extends Controller {
      * View student profile
      */
     public function view_profile($id) {
-        $this->requireRole(['super_admin', 'admin', 'teacher', 'parent']);
+        $this->requirePermission('students');
         
         // If parent, check if child
         if (Auth::getRole() === 'parent') {
@@ -156,7 +157,7 @@ class StudentsController extends Controller {
      * Edit student
      */
     public function edit($id) {
-        $this->requireRole(['super_admin', 'admin']);
+        $this->requirePermission('students');
         
         $model = $this->model('students');
         $student = $model->getStudentById($id);
@@ -172,6 +173,7 @@ class StudentsController extends Controller {
         $categories = $model->getCategories();
         
         if ($this->isPost()) {
+            $this->requireNotDemo();
             $data = Security::cleanArray($_POST);
             $photo = isset($_FILES['photo']) ? $_FILES['photo'] : null;
             
@@ -282,6 +284,7 @@ class StudentsController extends Controller {
         $this->requireRole(['super_admin', 'admin', 'teacher']);
         
         if ($this->isPost()) {
+            $this->requireNotDemo();
             $data = Security::cleanArray($_POST);
             $model = $this->model('students');
             
@@ -310,6 +313,7 @@ class StudentsController extends Controller {
         $this->requireRole(['super_admin', 'admin', 'teacher']);
         
         if ($this->isPost()) {
+            $this->requireNotDemo();
             $data = Security::cleanArray($_POST);
             $model = $this->model('students');
             
@@ -337,6 +341,7 @@ class StudentsController extends Controller {
         $this->requireRole(['super_admin', 'admin']);
         
         if ($this->isPost()) {
+            $this->requireNotDemo();
             $data = Security::cleanArray($_POST);
             $model = $this->model('students');
             
@@ -356,6 +361,7 @@ class StudentsController extends Controller {
         $this->requireRole(['super_admin', 'admin']);
         
         if ($this->isPost()) {
+            $this->requireNotDemo();
             $data = Security::cleanArray($_POST);
             $file = $_FILES['document'];
             
@@ -385,6 +391,7 @@ class StudentsController extends Controller {
         $this->requireRole(['super_admin', 'admin']);
         
         if ($this->isPost()) {
+            $this->requireNotDemo();
             $data = $_POST; // Use raw for custom fields to handle array if needed, but we purified values later
             $studentId = $data['student_id'];
             $model = $this->model('students');
@@ -448,6 +455,7 @@ class StudentsController extends Controller {
         $this->requireRole(['super_admin', 'admin']);
         
         if ($this->isPost()) {
+            $this->requireNotDemo();
             if (isset($_FILES['csv_file']) && $_FILES['csv_file']['error'] == 0) {
                 $file = $_FILES['csv_file']['tmp_name'];
                 $handle = fopen($file, "r");

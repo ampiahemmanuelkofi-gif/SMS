@@ -165,7 +165,7 @@ class StudentsModel extends Model {
     public function saveCustomFieldValue($studentId, $fieldId, $value) {
         $sql = "INSERT INTO student_custom_values (student_id, field_id, field_value) 
                 VALUES (:sid, :fid, :val) 
-                ON DUPLICATE KEY UPDATE field_value = :val";
+                ON DUPLICATE KEY UPDATE field_value = VALUES(field_value)";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([':sid' => $studentId, ':fid' => $fieldId, ':val' => $value]);
     }

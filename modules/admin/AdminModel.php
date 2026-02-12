@@ -24,7 +24,11 @@ class AdminModel extends Model {
     public function getSystemStats() {
         $stats = [];
         $stats['user_count'] = $this->count('users');
-        $stats['active_sessions'] = $this->count('users', 'last_login > DATE_SUB(NOW(), INTERVAL 15 MINUTE)');
+        $stats['active_sessions'] = $this->selectOne("
+            SELECT COUNT(DISTINCT user_id) as count 
+            FROM login_logs 
+            WHERE login_time > DATE_SUB(NOW(), INTERVAL 15 MINUTE)
+        ")['count'] ?? 0;
         $stats['database_size'] = '45 MB'; // Mock
         $stats['disk_usage'] = '12% Used'; // Mock
         return $stats;
@@ -34,7 +38,39 @@ class AdminModel extends Model {
      * Get all users with roles
      */
     public function getAllUsers() {
-        return $this->select("SELECT * FROM users ORDER BY full_name ASC");
+        return $this->select("
+            SELECT u.*, MAX(ll.login_time) as last_login
+            FROM users u
+            LEFT JOIN login_logs ll ON u.id = ll.user_id
+            GROUP BY u.id
+            ORDER BY u.full_name ASC
+        ");
+    }
+
+    /**
+     * Get user by ID
+     */
+    public function getUserById($id) {
+        return $this->selectOne("SELECT * FROM users WHERE id = :id", [':id' => $id]);
+    }
+
+    /**
+     * Check if username exists
+     */
+    public function usernameExists($username, $excludeId = null) {
+        $sql = "SELECT id FROM users WHERE username = :username";
+        $params = [':username' => $username];
+        
+        if ($excludeId) {
+            $sql .= " AND id != :id";
+            $params[':id'] = $excludeId;
+        }
+        
+        return $this->selectOne($sql, $params);
+    }
+    
+    public function insertUser($data) {
+        return $this->insert('users', $data);
     }
     
     /**
@@ -64,7 +100,7 @@ class AdminModel extends Model {
     public function updateSetting($key, $value) {
         $sql = "INSERT INTO settings (setting_key, setting_value) 
                 VALUES (:key, :val) 
-                ON DUPLICATE KEY UPDATE setting_value = :val";
+                ON DUPLICATE KEY UPDATE setting_value = VALUES(setting_value)";
         $stmt = $this->db->prepare($sql);
         return $stmt->execute([':key' => $key, ':val' => $value]);
     }
@@ -101,6 +137,66 @@ class AdminModel extends Model {
         
         $this->logAction($_SESSION['user_id'], 'apply_profile', 'Applied school profile: ' . $type);
         return true;
+    }
+
+    /**
+     * Get all permissions for all roles
+     */
+    public function getRolePermissions() {
+        return $this->select("SELECT * FROM role_permissions ORDER BY role ASC, module_key ASC");
+    }
+
+    /**
+     * Update a specific permission
+     */
+    public function updateRolePermission($role, $moduleKey, $canAccess) {
+        $sql = "UPDATE role_permissions SET can_access = :can WHERE role = :role AND module_key = :module";
+        $stmt = $this->db->prepare($sql);
+        $result = $stmt->execute([':can' => $canAccess, ':role' => $role, ':module' => $moduleKey]);
+        
+        if ($result) {
+            $this->logAction($_SESSION['user_id'], 'update_permission', "Updated $moduleKey access for $role to $canAccess");
+        }
+        return $result;
+    }
+
+    /**
+     * Get permission overrides for a specific user
+     */
+    public function getUserPermissions($userId) {
+        $permissions = $this->select("SELECT * FROM user_permissions WHERE user_id = :user_id", [':user_id' => $userId]);
+        $map = [];
+        foreach ($permissions as $p) {
+            $map[$p['module_key']] = $p['can_access'];
+        }
+        return $map;
+    }
+
+    /**
+     * Update or Insert a user permission override
+     */
+    public function updateUserPermission($userId, $moduleKey, $canAccess) {
+        $sql = "INSERT INTO user_permissions (user_id, module_key, can_access) 
+                VALUES (:user_id, :module, :can) 
+                ON DUPLICATE KEY UPDATE can_access = VALUES(can_access)";
+        $stmt = $this->db->prepare($sql);
+        $result = $stmt->execute([':user_id' => $userId, ':module' => $moduleKey, ':can' => $canAccess]);
+        
+        if ($result) {
+            $this->logAction($_SESSION['user_id'], 'update_user_permission', "Updated $moduleKey access for User ID $userId to $canAccess");
+        }
+        return $result;
+    }
+
+    /**
+     * Clear all overrides for a user (Reset to role defaults)
+     */
+    public function clearUserPermissions($userId) {
+        $result = $this->delete('user_permissions', 'user_id = :id', [':id' => $userId]);
+        if ($result) {
+            $this->logAction($_SESSION['user_id'], 'reset_user_permissions', "Reset permissions to defaults for User ID $userId");
+        }
+        return $result;
     }
 
     /**

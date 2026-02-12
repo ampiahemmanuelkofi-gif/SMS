@@ -152,11 +152,6 @@
                     </button>
                 </form>
                 
-                <div class="mt-4 text-center">
-                    <small class="text-muted">
-                        Default credentials: <strong>admin</strong> / <strong>admin123</strong>
-                    </small>
-                </div>
             </div>
         </div>
         

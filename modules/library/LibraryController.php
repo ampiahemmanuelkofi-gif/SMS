@@ -7,7 +7,7 @@
 class LibraryController extends Controller {
     
     public function index() {
-        $this->requireRole(['super_admin', 'admin', 'teacher', 'accountant']);
+        $this->requirePermission('library');
         $model = $this->model('library');
         
         $search = $this->get('search', '');
@@ -25,7 +25,7 @@ class LibraryController extends Controller {
     }
 
     public function circulation() {
-        $this->requireRole(['super_admin', 'admin']);
+        $this->requirePermission('library');
         $model = $this->model('library');
         
         if ($this->isPost()) {
@@ -66,7 +66,7 @@ class LibraryController extends Controller {
     }
 
     public function fines() {
-        $this->requireRole(['super_admin', 'admin', 'accountant']);
+        $this->requirePermission('library');
         $model = $this->model('library');
         
         $data = [
@@ -78,7 +78,7 @@ class LibraryController extends Controller {
     }
 
     public function add_book() {
-        $this->requireRole(['super_admin', 'admin']);
+        $this->requirePermission('library');
         $model = $this->model('library');
         
         if ($this->isPost()) {

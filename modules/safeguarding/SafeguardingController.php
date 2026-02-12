@@ -8,14 +8,8 @@ class SafeguardingController extends Controller {
     private $safeguardingModel;
     
     public function __construct() {
+        $this->requirePermission('safeguarding');
         $this->safeguardingModel = $this->model('safeguarding');
-        $this->checkLeadAccess();
-    }
-    
-    /**
-     * Strict check for Safeguarding Lead access
-     */
-    private function checkLeadAccess() {
         $db = getDbConnection();
         $stmt = $db->prepare("SELECT is_safeguarding_lead FROM users WHERE id = ?");
         $stmt->execute([$_SESSION['user_id']]);

@@ -7,7 +7,7 @@
 class CafeteriaController extends Controller {
     
     public function index() {
-        $this->requireRole(['super_admin', 'admin', 'canteen_staff']);
+        $this->requirePermission('cafeteria');
         $model = $this->model('cafeteria');
         
         $data = [
@@ -20,7 +20,7 @@ class CafeteriaController extends Controller {
     }
 
     public function menus() {
-        $this->requireRole(['super_admin', 'admin', 'canteen_staff']);
+        $this->requirePermission('cafeteria');
         $model = $this->model('cafeteria');
         
         if ($this->isPost()) {
@@ -45,7 +45,7 @@ class CafeteriaController extends Controller {
     }
 
     public function attendance() {
-        $this->requireRole(['super_admin', 'admin', 'canteen_staff']);
+        $this->requirePermission('cafeteria');
         $model = $this->model('cafeteria');
         $usersModel = $this->model('users');
         $healthModel = $this->model('health'); // To check medical allergies

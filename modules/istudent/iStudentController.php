@@ -6,7 +6,7 @@
 class iStudentController extends Controller {
     
     public function __construct() {
-        $this->requireRole(['student', 'super_admin', 'admin']);
+        $this->requirePermission('support');
     }
     
     /**

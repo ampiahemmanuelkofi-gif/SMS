@@ -23,7 +23,7 @@ class AssessmentsController extends Controller {
      * Marks entry interface
      */
     public function entry() {
-        $this->requireRole(['super_admin', 'admin', 'teacher']);
+        $this->requirePermission('assessments');
         
         $academicsModel = $this->model('academics');
         $classes = $academicsModel->getClasses();
@@ -118,7 +118,7 @@ class AssessmentsController extends Controller {
      * BECE Results Entry (JHS 3)
      */
     public function bece() {
-        $this->requireRole(['super_admin', 'admin', 'teacher']);
+        $this->requirePermission('assessments');
         
         $db = getDbConnection();
         $years = $db->query("SELECT * FROM academic_years ORDER BY start_date DESC")->fetchAll();
@@ -196,7 +196,7 @@ class AssessmentsController extends Controller {
      * Report Card View
      */
     public function reportCard($studentId) {
-        $this->requireRole(['super_admin', 'admin', 'teacher', 'parent']);
+        $this->requirePermission('assessments');
         
         $db = getDbConnection();
         $termId = $this->get('term_id');

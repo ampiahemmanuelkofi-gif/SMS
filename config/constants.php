@@ -3,6 +3,9 @@
  * Application Constants
  */
 
+// App Settings
+define('APP_DEMO_MODE', false); // Set to true to restrict destructive actions
+
 // School Information
 define('SCHOOL_NAME', 'Ghana Model School');
 define('SCHOOL_MOTTO', 'Excellence in Education');
@@ -43,7 +46,21 @@ define('ROLES', [
     'admin' => 'Administrator',
     'teacher' => 'Teacher',
     'accountant' => 'Accountant',
-    'parent' => 'Parent'
+    'parent' => 'Parent',
+    'hr' => 'HR Manager',
+    'staff' => 'Staff',
+    'librarian' => 'Librarian',
+    'student' => 'Student',
+    'lab_assistant' => 'Lab Assistant',
+    'admissions_officer' => 'Admissions Officer',
+    'inventory_manager' => 'Inventory Manager',
+    'receptionist' => 'Receptionist',
+    'hostel_warden' => 'Hostel Warden/Matron',
+    'nurse' => 'School Nurse/Health Officer',
+    'cafeteria_manager' => 'Cafeteria Manager',
+    'transport_manager' => 'Transport Manager',
+    'alumni' => 'Alumni',
+    'security_officer' => 'Security Officer'
 ]);
 
 // Attendance Status

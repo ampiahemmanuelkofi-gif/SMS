@@ -6,7 +6,7 @@
 class HrController extends Controller {
     
     public function index() {
-        $this->requireRole(['super_admin', 'admin']);
+        $this->requireRole(['super_admin', 'admin', 'hr']);
         $model = $this->model('hr');
         
         $data = [
@@ -25,7 +25,7 @@ class HrController extends Controller {
      * Employee Directory
      */
     public function directory() {
-        $this->requireRole(['super_admin', 'admin']);
+        $this->requireRole(['super_admin', 'admin', 'hr']);
         $model = $this->model('hr');
         
         $status = $this->get('status', 'active');
@@ -48,6 +48,7 @@ class HrController extends Controller {
         $model = $this->model('hr');
         
         if ($this->isPost()) {
+            $this->requireNotDemo();
             $data = Security::cleanArray($_POST);
             
             // 1. Create User first
@@ -98,11 +99,12 @@ class HrController extends Controller {
      * Leave Management
      */
     public function leave() {
-        $this->requireRole(['super_admin', 'admin', 'teacher', 'accountant']);
+        $this->requireRole(['super_admin', 'admin', 'hr', 'teacher', 'accountant', 'staff', 'librarian', 'nurse', 'lab_assistant', 'receptionist', 'hostel_warden', 'cafeteria_manager', 'transport_manager', 'security_officer']);
         $model = $this->model('hr');
         $role = Auth::getRole();
         
-        if ($this->isPost() && in_array($role, ['super_admin', 'admin'])) {
+        if ($this->isPost() && in_array($role, ['super_admin', 'admin', 'hr'])) {
+            $this->requireNotDemo();
             $this->model('hr')->updateLeaveStatus($_POST['id'], $_POST['status'], $_SESSION['user_id']);
             $this->setFlash('success', 'Leave request updated.');
             $this->redirect('hr/leave');
@@ -113,7 +115,7 @@ class HrController extends Controller {
             'leaveTypes' => $model->getLeaveTypes()
         ];
 
-        if (in_array($role, ['super_admin', 'admin'])) {
+        if (in_array($role, ['super_admin', 'admin', 'hr'])) {
             $data['pendingRequests'] = $model->getLeaveRequests('pending');
             $data['allRequests'] = $model->getLeaveRequests('approved');
         } else {
@@ -128,7 +130,7 @@ class HrController extends Controller {
      * Payroll Processing
      */
     public function payroll() {
-        $this->requireRole(['super_admin', 'accountant']);
+        $this->requireRole(['super_admin', 'admin', 'hr', 'accountant']);
         $model = $this->model('hr');
         $payrollModel = $this->model('payroll');
         
@@ -136,6 +138,7 @@ class HrController extends Controller {
         $year = $this->get('year', date('Y'));
         
         if ($this->isPost() && $_POST['action'] == 'generate') {
+            $this->requireNotDemo();
             $employees = $model->getEmployees('active');
             $count = 0;
             foreach ($employees as $emp) {
@@ -162,10 +165,11 @@ class HrController extends Controller {
      * Recruitment / Applicant Tracking
      */
     public function recruitment() {
-        $this->requireRole(['super_admin', 'admin']);
+        $this->requireRole(['super_admin', 'admin', 'hr']);
         $model = $this->model('hr');
         
         if ($this->isPost()) {
+            $this->requireNotDemo();
             $model->updateApplicantStatus($_POST['id'], $_POST['status']);
             $this->setFlash('success', 'Applicant status updated.');
             $this->redirect('hr/recruitment');
@@ -183,7 +187,7 @@ class HrController extends Controller {
      * Individual Payslip View
      */
     public function payslip($id) {
-        $this->requireRole(['super_admin', 'admin', 'accountant', 'teacher']);
+        $this->requireRole(['super_admin', 'admin', 'hr', 'accountant', 'teacher', 'staff', 'librarian', 'nurse', 'receptionist', 'security_officer']);
         
         $db = getDbConnection();
         $payroll = $db->query("

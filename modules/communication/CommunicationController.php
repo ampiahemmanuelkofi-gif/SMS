@@ -7,7 +7,7 @@
 class CommunicationController extends Controller {
     
     public function index() {
-        $this->requireRole(['super_admin', 'admin', 'teacher', 'parent', 'student']);
+        $this->requirePermission('support');
         $model = $this->model('communication');
         
         $audience = $_SESSION['role'];
@@ -24,7 +24,7 @@ class CommunicationController extends Controller {
     }
 
     public function inbox() {
-        $this->requireRole(['super_admin', 'admin', 'teacher', 'parent', 'student']);
+        $this->requirePermission('support');
         $model = $this->model('communication');
         
         $data = [
@@ -36,7 +36,7 @@ class CommunicationController extends Controller {
     }
 
     public function send() {
-        $this->requireRole(['super_admin', 'admin', 'teacher']);
+        $this->requireRole(['super_admin', 'admin', 'teacher', 'receptionist']);
         $model = $this->model('communication');
         $usersModel = $this->model('users');
         

@@ -10,7 +10,7 @@ class ParentController extends Controller {
      * Show list of children linked to this parent
      */
     public function children() {
-        $this->requireRole('parent');
+        $this->requirePermission('support');
         
         $db = getDbConnection();
         $parentUserId = $_SESSION['user_id'];
@@ -38,7 +38,7 @@ class ParentController extends Controller {
      * View child performance/details
      */
     public function childDetails($studentId) {
-        $this->requireRole('parent');
+        $this->requirePermission('support');
         
         // Verify ownership
         if (!$this->isParentOf($studentId)) {
@@ -85,7 +85,7 @@ class ParentController extends Controller {
      * View payments for children
      */
     public function payments() {
-        $this->requireRole('parent');
+        $this->requirePermission('support');
         
         $db = getDbConnection();
         $parentUserId = $_SESSION['user_id'];

@@ -9,7 +9,7 @@ class FeesController extends Controller {
      * Finance Dashboard
      */
     public function index() {
-        $this->requireRole(['super_admin', 'admin', 'accountant']);
+        $this->requirePermission('finance');
         
         $model = $this->model('fees');
         $stats = $model->getDashboardStats();
@@ -79,6 +79,7 @@ class FeesController extends Controller {
 
     public function saveCategory() {
         $this->requireRole(['super_admin', 'admin', 'accountant']);
+        $this->requireNotDemo();
         if ($this->isPost()) {
             $db = getDbConnection();
             $stmt = $db->prepare("INSERT INTO fee_categories (name, description) VALUES (?, ?)");
@@ -112,6 +113,7 @@ class FeesController extends Controller {
 
     public function generateInvoices() {
         $this->requireRole(['super_admin', 'admin', 'accountant']);
+        $this->requireNotDemo();
         if ($this->isPost()) {
             $termId = $_POST['term_id'];
             $model = $this->model('fees');
@@ -160,6 +162,7 @@ class FeesController extends Controller {
      */
     public function addStructure() {
         $this->requireRole(['super_admin', 'admin', 'accountant']);
+        $this->requireNotDemo();
         
         if ($this->isPost()) {
             $data = Security::cleanArray($_POST);
@@ -213,6 +216,7 @@ class FeesController extends Controller {
      */
     public function savePayment() {
         $this->requireRole(['super_admin', 'admin', 'accountant']);
+        $this->requireNotDemo();
         
         if ($this->isPost()) {
             $db = getDbConnection();
@@ -251,7 +255,7 @@ class FeesController extends Controller {
      * View/Print Receipt
      */
     public function receipt($id) {
-        $this->requireRole(['super_admin', 'admin', 'accountant', 'parent']);
+        $this->requirePermission('finance');
         
         $db = getDbConnection();
         $payment = $db->query("

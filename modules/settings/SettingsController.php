@@ -32,6 +32,7 @@ class SettingsController extends Controller {
      */
     public function save($section = 'school') {
         $this->requireRole('super_admin');
+        $this->requireNotDemo();
         
         if ($this->isPost()) {
             $this->requireCsrf();
@@ -55,6 +56,7 @@ class SettingsController extends Controller {
      */
     public function uploadLogo() {
         $this->requireRole('super_admin');
+        $this->requireNotDemo();
         
         if ($this->isPost() && isset($_FILES['logo'])) {
             $this->requireCsrf();
@@ -91,6 +93,7 @@ class SettingsController extends Controller {
      */
     public function backup() {
         $this->requireRole('super_admin');
+        $this->requireNotDemo();
         
         if ($this->isPost()) {
             $this->requireCsrf();
@@ -120,6 +123,7 @@ class SettingsController extends Controller {
      */
     public function maintenance() {
         $this->requireRole('super_admin');
+        $this->requireNotDemo();
         
         if ($this->isPost()) {
             $this->requireCsrf();

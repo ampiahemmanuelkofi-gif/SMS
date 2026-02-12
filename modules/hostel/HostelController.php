@@ -7,7 +7,7 @@
 class HostelController extends Controller {
     
     public function index() {
-        $this->requireRole(['super_admin', 'admin', 'warden']);
+        $this->requirePermission('hostel');
         $model = $this->model('hostel');
         
         $data = [
@@ -21,7 +21,7 @@ class HostelController extends Controller {
     }
 
     public function inventory() {
-        $this->requireRole(['super_admin', 'admin', 'warden']);
+        $this->requirePermission('hostel');
         $model = $this->model('hostel');
         
         if ($this->isPost()) {
@@ -56,7 +56,7 @@ class HostelController extends Controller {
     }
 
     public function allocations() {
-        $this->requireRole(['super_admin', 'admin', 'warden']);
+        $this->requirePermission('hostel');
         $model = $this->model('hostel');
         $usersModel = $this->model('users');
         
@@ -87,7 +87,7 @@ class HostelController extends Controller {
     }
 
     public function leave() {
-        $this->requireRole(['super_admin', 'admin', 'warden']);
+        $this->requirePermission('hostel');
         $model = $this->model('hostel');
         
         if ($this->isPost()) {
@@ -108,7 +108,7 @@ class HostelController extends Controller {
     }
 
     public function incidents() {
-        $this->requireRole(['super_admin', 'admin', 'warden']);
+        $this->requirePermission('hostel');
         $model = $this->model('hostel');
         $usersModel = $this->model('users');
         

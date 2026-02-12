@@ -15,6 +15,7 @@ class SupportController extends Controller {
      * Support Hub Dashboard
      */
     public function index() {
+        $this->requirePermission('support');
         $data = [
             'pageTitle' => 'Support Hub',
             'faqs' => $this->supportModel->getFAQs(),

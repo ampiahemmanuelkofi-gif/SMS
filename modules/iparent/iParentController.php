@@ -6,7 +6,7 @@
 class iParentController extends Controller {
     
     public function __construct() {
-        $this->requireRole(['parent', 'super_admin', 'admin']);
+        $this->requirePermission('support');
     }
     
     /**

@@ -26,6 +26,48 @@ class DashboardController extends Controller {
             case 'parent':
                 $this->parentDashboard();
                 break;
+            case 'hr':
+                $this->hrDashboard();
+                break;
+            case 'librarian':
+                $this->librarianDashboard();
+                break;
+            case 'student':
+                $this->studentDashboard();
+                break;
+            case 'lab_assistant':
+                $this->labAssistantDashboard();
+                break;
+            case 'admissions_officer':
+                $this->admissionsDashboard();
+                break;
+            case 'inventory_manager':
+                $this->inventoryDashboard();
+                break;
+            case 'receptionist':
+                $this->receptionistDashboard();
+                break;
+            case 'hostel_warden':
+                $this->hostelDashboard();
+                break;
+            case 'nurse':
+                $this->nurseDashboard();
+                break;
+            case 'cafeteria_manager':
+                $this->cafeteriaDashboard();
+                break;
+            case 'transport_manager':
+                $this->transportDashboard();
+                break;
+            case 'alumni':
+                $this->alumniDashboard();
+                break;
+            case 'security_officer':
+                $this->securityDashboard();
+                break;
+            case 'staff':
+                $this->staffDashboard();
+                break;
             default:
                 Auth::logout();
                 $this->redirect('auth/login');
@@ -257,10 +299,27 @@ class DashboardController extends Controller {
             'children' => $children,
             'notices' => $notices
         ];
-        
         $this->view('dashboard/parent', $data);
     }
     
+    /**
+     * Role-specific Dashboards (HR, Library, etc.)
+     */
+    private function hrDashboard() { $this->view('dashboard/hr', ['pageTitle' => 'HR Dashboard']); }
+    private function librarianDashboard() { $this->view('dashboard/librarian', ['pageTitle' => 'Library Dashboard']); }
+    private function studentDashboard() { $this->view('dashboard/student', ['pageTitle' => 'Student Dashboard']); }
+    private function labAssistantDashboard() { $this->view('dashboard/lab_assistant', ['pageTitle' => 'Lab Dashboard']); }
+    private function admissionsDashboard() { $this->view('dashboard/admissions_officer', ['pageTitle' => 'Admissions Dashboard']); }
+    private function inventoryDashboard() { $this->view('dashboard/inventory_manager', ['pageTitle' => 'Inventory Dashboard']); }
+    private function receptionistDashboard() { $this->view('dashboard/receptionist', ['pageTitle' => 'Front Desk Dashboard']); }
+    private function hostelDashboard() { $this->view('dashboard/hostel_warden', ['pageTitle' => 'Hostel Dashboard']); }
+    private function nurseDashboard() { $this->view('dashboard/nurse', ['pageTitle' => 'Health Dashboard']); }
+    private function cafeteriaDashboard() { $this->view('dashboard/cafeteria_manager', ['pageTitle' => 'Cafeteria Dashboard']); }
+    private function transportDashboard() { $this->view('dashboard/transport_manager', ['pageTitle' => 'Transport Dashboard']); }
+    private function alumniDashboard() { $this->view('dashboard/alumni', ['pageTitle' => 'Alumni Portal']); }
+    private function securityDashboard() { $this->view('dashboard/security_officer', ['pageTitle' => 'Security Dashboard']); }
+    private function staffDashboard() { $this->view('dashboard/staff', ['pageTitle' => 'Staff Dashboard']); }
+
     /**
      * Helper: Get count from query
      */

@@ -166,6 +166,44 @@ class Auth {
     }
     
     /**
+     * Check if current user's role can access a module
+     * 
+     * @param string $moduleKey
+     * @return bool
+     */
+    public static function canAccess($moduleKey) {
+        if (!self::isLoggedIn()) return false;
+        
+        $role = self::getRole();
+        if ($role === 'super_admin') return true;
+        
+        $userId = self::getUserId();
+        $db = getDbConnection();
+        try {
+            // 1. Check for individual user override
+            $sql = "SELECT can_access FROM user_permissions WHERE user_id = :user_id AND module_key = :module";
+            $stmt = $db->prepare($sql);
+            $stmt->execute([':user_id' => $userId, ':module' => $moduleKey]);
+            $override = $stmt->fetch();
+            
+            if ($override) {
+                return (bool)$override['can_access'];
+            }
+
+            // 2. Fallback to role-based permission
+            $sql = "SELECT can_access FROM role_permissions WHERE role = :role AND module_key = :module";
+            $stmt = $db->prepare($sql);
+            $stmt->execute([':role' => $role, ':module' => $moduleKey]);
+            $result = $stmt->fetch();
+            
+            return $result ? (bool)$result['can_access'] : false;
+        } catch (PDOException $e) {
+            error_log("Permission Check Error: " . $e->getMessage());
+            return false;
+        }
+    }
+
+    /**
      * Hash password
      * 
      * @param string $password

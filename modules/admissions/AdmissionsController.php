@@ -8,7 +8,7 @@ class AdmissionsController extends Controller {
      * Admin Dashboard for Admissions
      */
     public function index() {
-        $this->requireRole(['super_admin', 'admin', 'principal']);
+        $this->requirePermission('admissions');
         
         $model = $this->model('admissions');
         
@@ -37,6 +37,7 @@ class AdmissionsController extends Controller {
         $classes = $academicsModel->getClasses();
         
         if ($this->isPost()) {
+            $this->requireNotDemo();
             $data = Security::cleanArray($_POST);
             $model = $this->model('admissions');
             
@@ -84,7 +85,7 @@ class AdmissionsController extends Controller {
      * View Application Details
      */
     public function view_application($id) {
-        $this->requireRole(['super_admin', 'admin', 'principal']);
+        $this->requirePermission('admissions');
         
         $model = $this->model('admissions');
         $application = $model->getApplication($id);
@@ -108,10 +109,11 @@ class AdmissionsController extends Controller {
     /**
      * Update Status
      */
-    public function update_status() {
-        $this->requireRole(['super_admin', 'admin']);
+    public function update_status($id) {
+        $this->requirePermission('admissions');
         
         if ($this->isPost()) {
+            $this->requireNotDemo();
             $id = $_POST['application_id'];
             $status = $_POST['status'];
             
@@ -129,10 +131,11 @@ class AdmissionsController extends Controller {
     /**
      * Schedule Interview
      */
-    public function schedule_interview() {
-        $this->requireRole(['super_admin', 'admin', 'principal']);
+    public function schedule_interview($id) {
+        $this->requirePermission('admissions');
         
         if ($this->isPost()) {
+            $this->requireNotDemo();
             $data = Security::cleanArray($_POST);
             $admissionId = $data['admission_id'];
             
@@ -159,7 +162,7 @@ class AdmissionsController extends Controller {
      * Generate Offer Letter
      */
     public function generate_offer($id) {
-        $this->requireRole(['super_admin', 'admin', 'principal']);
+        $this->requirePermission('admissions');
         
         $model = $this->model('admissions');
         $application = $model->getApplication($id);
@@ -189,11 +192,12 @@ class AdmissionsController extends Controller {
      * Waitlist Management
      */
     public function waitlist() {
-        $this->requireRole(['super_admin', 'admin', 'principal']);
+        $this->requirePermission('admissions');
         
         $model = $this->model('admissions');
         
         if ($this->isPost() && isset($_POST['ranks'])) {
+            $this->requireNotDemo();
             // Update ranks
             foreach ($_POST['ranks'] as $id => $rank) {
                 $model->updateWaitlistRank($id, (int)$rank);

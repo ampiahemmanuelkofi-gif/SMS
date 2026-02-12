@@ -29,6 +29,7 @@ class StaffController extends Controller {
         $this->requireRole('super_admin');
         
         if ($this->isPost()) {
+            $this->requireNotDemo();
             $data = Security::cleanArray($_POST);
             
             $validator = new Validator();
@@ -86,6 +87,7 @@ class StaffController extends Controller {
         }
         
         if ($this->isPost()) {
+            $this->requireNotDemo();
             $data = Security::cleanArray($_POST);
             
             $validator = new Validator();

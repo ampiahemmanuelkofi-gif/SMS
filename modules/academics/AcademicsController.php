@@ -19,7 +19,7 @@ class AcademicsController extends Controller {
      * Manage Academic Programs
      */
     public function programs() {
-        $this->requireRole(['super_admin', 'admin']);
+        $this->requirePermission('academics');
         
         $model = $this->model('academics');
         $programs = $model->getPrograms();
@@ -36,7 +36,7 @@ class AcademicsController extends Controller {
      * Add Program
      */
     public function addProgram() {
-        $this->requireRole(['super_admin', 'admin']);
+        $this->requirePermission('academics');
         
         if ($this->isPost()) {
             $data = Security::cleanArray($_POST);
@@ -59,7 +59,7 @@ class AcademicsController extends Controller {
      * Manage classes
      */
     public function classes() {
-        $this->requireRole(['super_admin', 'admin']);
+        $this->requirePermission('academics');
         
         $model = $this->model('academics');
         $classes = $model->getClasses();
@@ -76,7 +76,7 @@ class AcademicsController extends Controller {
      * Manage sections for a class
      */
     public function sections($classId) {
-        $this->requireRole(['super_admin', 'admin']);
+        $this->requirePermission('academics');
         
         $model = $this->model('academics');
         $class = $model->selectOne("SELECT * FROM classes WHERE id = ?", [$classId]);
@@ -101,7 +101,7 @@ class AcademicsController extends Controller {
      * Manage academic years and terms
      */
     public function periods() {
-        $this->requireRole(['super_admin', 'admin']);
+        $this->requirePermission('academics');
         
         $model = $this->model('academics');
         $years = $model->getAcademicYears();
@@ -219,7 +219,7 @@ class AcademicsController extends Controller {
      * Manage subjects
      */
     public function subjects() {
-        $this->requireRole(['super_admin', 'admin']);
+        $this->requirePermission('academics');
         
         $model = $this->model('academics');
         $subjects = $model->getAllSubjects();

@@ -5,10 +5,15 @@
  */
 
 class HealthController extends Controller {
-    
+    protected $healthModel;
+
+    public function __construct() {
+        $this->requirePermission('health');
+        $this->healthModel = $this->model('health');
+    }
+
     public function index() {
-        $this->requireRole(['super_admin', 'admin', 'nurse']);
-        $model = $this->model('health');
+        $model = $this->healthModel;
         
         $data = [
             'pageTitle' => 'Medical Dashboard',
@@ -21,8 +26,7 @@ class HealthController extends Controller {
     }
 
     public function visits() {
-        $this->requireRole(['super_admin', 'admin', 'nurse']);
-        $model = $this->model('health');
+        $model = $this->healthModel;
         $usersModel = $this->model('users');
         
         if ($this->isPost()) {
@@ -63,9 +67,9 @@ class HealthController extends Controller {
         $this->view('health/clinic_log', $data);
     }
 
+    
     public function records() {
-        $this->requireRole(['super_admin', 'admin', 'nurse']);
-        $model = $this->model('health');
+        $model = $this->healthModel;
         $usersModel = $this->model('users');
         
         $userId = $_GET['user_id'] ?? null;
@@ -93,8 +97,7 @@ class HealthController extends Controller {
     }
 
     public function screenings() {
-        $this->requireRole(['super_admin', 'admin', 'nurse']);
-        $model = $this->model('health');
+        $model = $this->healthModel;
         
         if ($this->isPost()) {
             $model->addScreening([

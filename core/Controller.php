@@ -141,6 +141,34 @@ class Controller {
         
         return true;
     }
+
+    /**
+     * Require user to be logged in
+     * 
+     * @return bool
+     */
+    protected function requireLogin() {
+        if (!Auth::isLoggedIn()) {
+            $this->redirect('auth/login');
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Check if user has permission for a module
+     * 
+     * @param string $moduleKey
+     * @return bool
+     */
+    protected function requirePermission($moduleKey) {
+        if (!Auth::canAccess($moduleKey)) {
+            $this->setFlash('error', 'You do not have permission to access the ' . ucfirst($moduleKey) . ' module.');
+            $this->redirect('dashboard');
+            return false;
+        }
+        return true;
+    }
     
     /**
      * Get POST data
@@ -228,5 +256,22 @@ class Controller {
         }
         $value = isset($_GET[$key]) ? $_GET[$key] : $default;
         return is_array($value) ? Security::cleanArray($value) : Security::clean($value);
+    }
+
+    /**
+     * Prevent destructive actions when in demo mode
+     * 
+     * @return bool
+     */
+    protected function requireNotDemo() {
+        if (defined('APP_DEMO_MODE') && APP_DEMO_MODE) {
+            if ($this->isAjax()) {
+                $this->json(['error' => 'This action is restricted in demo mode.'], 403);
+            }
+            $this->setFlash('warning', 'This action is restricted in demo mode.');
+            $this->redirect($_SERVER['HTTP_REFERER'] ?? 'dashboard');
+            return false;
+        }
+        return true;
     }
 }

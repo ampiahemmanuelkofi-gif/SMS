@@ -344,6 +344,23 @@
                 <input type="text" placeholder="Search students, staff, records">
             </div>
 
+            <!-- Demo Mode Badge -->
+            <?php if (defined('APP_DEMO_MODE') && APP_DEMO_MODE): ?>
+                <div class="ms-3">
+                    <span class="badge bg-warning text-dark rounded-pill px-3 py-2 border border-dark border-opacity-10 shadow-sm animate-pulse">
+                        <i class="bi bi-shield-lock-fill me-1"></i> DEMO MODE
+                    </span>
+                </div>
+                <style>
+                    @keyframes pulse-demo {
+                        0% { opacity: 1; }
+                        50% { opacity: 0.7; }
+                        100% { opacity: 1; }
+                    }
+                    .animate-pulse { animation: pulse-demo 2s infinite; }
+                </style>
+            <?php endif; ?>
+
         </div>
 
         <!-- Right Section -->

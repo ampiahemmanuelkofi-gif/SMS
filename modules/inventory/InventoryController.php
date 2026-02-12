@@ -5,10 +5,15 @@
  */
 
 class InventoryController extends Controller {
-    
+    protected $inventoryModel;
+
+    public function __construct() {
+        $this->requirePermission('inventory');
+        $this->inventoryModel = $this->model('inventory');
+    }
+
     public function index() {
-        $this->requireRole(['super_admin', 'admin', 'inventory_manager']);
-        $model = $this->model('inventory');
+        $model = $this->inventoryModel;
         
         $data = [
             'pageTitle' => 'Asset & Inventory Dashboard',
@@ -21,8 +26,7 @@ class InventoryController extends Controller {
     }
 
     public function assets() {
-        $this->requireRole(['super_admin', 'admin', 'inventory_manager']);
-        $model = $this->model('inventory');
+        $model = $this->inventoryModel;
         $usersModel = $this->model('users');
         
         if ($this->isPost()) {
@@ -51,8 +55,7 @@ class InventoryController extends Controller {
     }
 
     public function stock() {
-        $this->requireRole(['super_admin', 'admin', 'inventory_manager']);
-        $model = $this->model('inventory');
+        $model = $this->inventoryModel;
         
         if ($this->isPost()) {
             $action = $_POST['action'];
@@ -88,8 +91,7 @@ class InventoryController extends Controller {
     }
 
     public function maintenance() {
-        $this->requireRole(['super_admin', 'admin', 'inventory_manager']);
-        $model = $this->model('inventory');
+        $model = $this->inventoryModel;
         
         if ($this->isPost()) {
             $model->addMaintenanceLog([

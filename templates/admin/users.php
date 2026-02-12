@@ -1,7 +1,7 @@
 <div class="card border-0 shadow-sm">
     <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
         <h6 class="mb-0 fw-bold">User Directory</h6>
-        <button class="btn btn-sm btn-primary"><i class="bi bi-person-plus"></i> New User</button>
+        <a href="<?php echo BASE_URL; ?>admin/addUser" class="btn btn-sm btn-primary"><i class="bi bi-person-plus"></i> New User</a>
     </div>
     <div class="card-body p-0">
         <div class="table-responsive">
@@ -34,7 +34,7 @@
                             </td>
                             <td>
                                 <small class="text-muted">
-                                    <?php echo $user['last_login'] ? date('Y-m-d H:i', strtotime($user['last_login'])) : 'Never'; ?>
+                                    <?php echo (isset($user['last_login']) && $user['last_login']) ? date('Y-m-d H:i', strtotime($user['last_login'])) : 'Never'; ?>
                                 </small>
                             </td>
                             <td>
@@ -46,7 +46,7 @@
                             </td>
                             <td class="text-end pe-4">
                                 <div class="btn-group">
-                                    <button class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></button>
+                                    <a href="<?php echo BASE_URL; ?>admin/editUser/<?php echo $user['id']; ?>" class="btn btn-sm btn-outline-secondary"><i class="bi bi-pencil"></i></a>
                                     <form action="<?php echo BASE_URL; ?>admin/users" method="POST" class="d-inline">
                                         <input type="hidden" name="action" value="update_status">
                                         <input type="hidden" name="user_id" value="<?php echo $user['id']; ?>">

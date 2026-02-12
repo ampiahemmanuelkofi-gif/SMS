@@ -23,7 +23,7 @@ class AttendanceController extends Controller {
      * Mark attendance - select class/section/date
      */
     public function mark() {
-        $this->requireRole(['super_admin', 'admin', 'teacher']);
+        $this->requirePermission('attendance');
         
         $academicsModel = $this->model('academics');
         $classes = $academicsModel->getClasses();
@@ -121,7 +121,7 @@ class AttendanceController extends Controller {
      * Leave Management
      */
     public function leaves() {
-        $this->requireRole(['super_admin', 'admin', 'teacher', 'parent']);
+        $this->requirePermission('attendance');
         
         $pendingLeaves = $this->service->getPendingLeaves();
         
